@@ -1,0 +1,39 @@
+# pytorch containers
+<acctid>.dkr.ecr.us-east-2.amazonaws.com/pytorch-training:1.6.0-gpu-py36-cu101-ubuntu16.04
+
+<acctid>.dkr.ecr.us-east-2.amazonaws.com/pytorch-training:1.6.0-cpu-py36-ubuntu16.04
+
+# auth pytorch container in dockerfile
+aws ecr get-login-password --profile "brainwave" | docker login --username AWS --password-stdin ACCID.dkr.ecr.us-east-2.amazonaws.com
+
+# building after updates to Dockerfile
+docker build [-f fn] -t fetch-run .
+
+# auth loading image to ECR
+aws ecr get-login-password --profile "brainwave" | docker login --username AWS --password-stdin ACCID.dkr.ecr.us-east-2.amazonaws.com
+
+# tag and load image
+docker tag fetch-run:latest ACCID.dkr.ecr.us-east-2.amazonaws.com/fetch-run:latest
+docker push ACCID.dkr.ecr.us-east-2.amazonaws.com/fetch-run:latest
+
+docker tag fetch-run-cpu:latest ACCID.dkr.ecr.us-east-2.amazonaws.com/fetch-run-cpu:latest
+docker push ACCID.dkr.ecr.us-east-2.amazonaws.com/fetch-run-cpu:latest
+
+---------------
+Running Locally
+---------------
+
+# list images
+docker images
+
+# containers
+docker ps # list
+docker run # create and start
+docker start
+docker stop
+
+# run local
+use run-local.sh
+
+# run without script
+docker run -it --entrypoint /bin/bash fetch-run
